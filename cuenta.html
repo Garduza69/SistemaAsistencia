@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultado de cuenta</title>
+    <link rel="stylesheet" href="main2.css" />
+    <script>
+        // Función para cargar dinámicamente el contenido de cuenta.php dentro del div con id "resultado"
+        function cargarResultado() {
+            // Crea un objeto XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+            // Define la ruta del archivo cuenta.php
+            var url = "cuenta.php";
+            // Abre una conexión al archivo cuenta.php mediante una petición GET
+            xhr.open("GET", url, true);
+            // Configura la función de retorno de llamada cuando la solicitud se complete
+            xhr.onreadystatechange = function() {
+                // Si la solicitud se completa y el estado de la solicitud es OK (200)
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Actualiza el contenido del div con id "resultado" con la respuesta recibida de cuenta.php
+                    document.getElementById("resultado").innerHTML = xhr.responseText;
+                }
+            };
+            // Envía la solicitud
+            xhr.send();
+        }
+        // Llama a la función cargarResultado cuando se cargue la página
+        window.onload = cargarResultado;
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Resultado de cuenta</h1>
+        <div id="resultado"></div>
+    </div>
+</body>
+</html>
