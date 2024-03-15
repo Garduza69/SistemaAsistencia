@@ -74,7 +74,7 @@ qrcode.callback = (token) => {
 // Función para registrar la asistencia utilizando scan.php
 function registrarAsistencia(token) {
   // Realizar solicitud fetch a scan.php
-  fetch('http://localhost/lector/assets/js/scan.php?token=' + token)
+  fetch('scan.php?token=' + token)
     .then(response => {
       if (!response.ok) {
         throw new Error('Error al realizar la solicitud');
@@ -85,7 +85,6 @@ function registrarAsistencia(token) {
     .then(data => {
       if (data === 'success') {
         // Redirigir a otra página en caso de éxito
-        window.location.href = 'prueba.php'; // Cambia otra_pagina.php por la página a la que deseas redireccionar
       } else {
         // Mostrar mensaje de error utilizando SweetAlert2
         Swal.fire('Error', 'No se pudo registrar la asistencia', 'error');

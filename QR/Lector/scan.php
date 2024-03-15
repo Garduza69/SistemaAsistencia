@@ -3,7 +3,7 @@
 $servername = "localhost"; // Cambia localhost por el servidor de tu base de datos
 $username = "root"; // Cambia tu_usuario por el nombre de usuario de tu base de datos
 $password = ""; // Cambia tu_contraseña por la contraseña de tu base de datos
-$dbname = "lector"; // Cambia login por el nombre de tu base de datos
+$dbname = "sotavento"; // Cambia login por el nombre de tu base de datos
 
 // Obtener el token del parámetro GET
 if(isset($_GET['token'])) {
