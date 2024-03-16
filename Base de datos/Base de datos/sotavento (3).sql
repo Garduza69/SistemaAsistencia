@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-03-2024 a las 02:16:40
+-- Tiempo de generación: 16-03-2024 a las 18:23:53
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -35,20 +35,22 @@ CREATE TABLE `alumnos` (
   `matricula` varchar(20) DEFAULT NULL,
   `curp` varchar(20) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
-  `sexo` char(4) DEFAULT NULL
+  `sexo` char(4) DEFAULT NULL,
+  `Fecha_alta` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `actualización` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `alumnos`
 --
 
-INSERT INTO `alumnos` (`alumno_id`, `nombre`, `primer_apellido`, `segundo_apellido`, `matricula`, `curp`, `fecha_nacimiento`, `sexo`) VALUES
-(1, 'Omar ', 'Rivas', 'Perez', '21009758', 'RIPO020203HVZVRMA0', '2002-02-03', 'M'),
-(2, 'Carlos Alberto', 'Molina', 'Canseco', '121305866', 'MOCG010922HVEMLR00', '2001-09-22', 'X'),
-(3, 'Miguel Angel', 'Garduza', 'Aburto', '21009759', 'GAAM001128HVERGB00', '2000-11-28', 'M'),
-(4, 'Leonel', 'Leon', 'Flores', '21009760', 'LELL020123XOCOONN00', '2002-01-23', 'M'),
-(5, 'Jesus Aaron', 'Ramirez', 'Villegas', '21009731', 'RAVJ020715HGRMLS00', '2002-07-15', 'M'),
-(6, 'Gerson Jael ', 'Sahagun', 'Camacho', '21009761', 'CASA020825HVEMRH00', '2002-08-25', 'M');
+INSERT INTO `alumnos` (`alumno_id`, `nombre`, `primer_apellido`, `segundo_apellido`, `matricula`, `curp`, `fecha_nacimiento`, `sexo`, `Fecha_alta`, `actualización`) VALUES
+(1, 'Omar ', 'Rivas', 'Perez', '21009758', 'RIPO020203HVZVRMA0', '2002-02-03', 'M', '2024-03-16 17:18:11', NULL),
+(2, 'Carlos Alberto', 'Molina', 'Canseco', '121305866', 'MOCG010922HVEMLR00', '2001-09-22', 'X', '2024-03-16 17:18:11', NULL),
+(3, 'Miguel Angel', 'Garduza', 'Aburto', '21009759', 'GAAM001128HVERGB00', '2000-11-28', 'M', '2024-03-16 17:18:11', NULL),
+(4, 'Leonel', 'Leon', 'Flores', '21009760', 'LELL020123XOCOONN00', '2002-01-23', 'M', '2024-03-16 17:18:11', NULL),
+(5, 'Jesus Aaron', 'Ramirez', 'Villegas', '21009731', 'RAVJ020715HGRMLS00', '2002-07-15', 'M', '2024-03-16 17:18:11', NULL),
+(6, 'Gerson Jael ', 'Sahagun', 'Camacho', '21009761', 'CASA020825HVEMRH00', '2002-08-25', 'M', '2024-03-16 17:18:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -75,7 +77,8 @@ CREATE TABLE `codigos_qr` (
   `correo` varchar(255) DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL,
   `used` tinyint(1) DEFAULT NULL,
-  `fec_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fec_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Id_materia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -411,15 +414,16 @@ ALTER TABLE `alumnos`
 --
 ALTER TABLE `asistencia`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `horario_id` (`horario_id`),
-  ADD UNIQUE KEY `alumno_id` (`alumno_id`);
+  ADD KEY `alumno_id` (`alumno_id`) USING BTREE,
+  ADD KEY `horario_id` (`horario_id`) USING BTREE;
 
 --
 -- Indices de la tabla `codigos_qr`
 --
 ALTER TABLE `codigos_qr`
   ADD PRIMARY KEY (`id_codigo`),
-  ADD KEY `fk_codigos_qr_usuario` (`id_usuario`);
+  ADD KEY `fk_codigos_qr_usuario` (`id_usuario`),
+  ADD KEY `id_materia` (`Id_materia`);
 
 --
 -- Indices de la tabla `facultades`
@@ -591,7 +595,8 @@ ALTER TABLE `asistencia`
 -- Filtros para la tabla `codigos_qr`
 --
 ALTER TABLE `codigos_qr`
-  ADD CONSTRAINT `codigos_qr_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idUsuario`);
+  ADD CONSTRAINT `codigos_qr_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`idUsuario`),
+  ADD CONSTRAINT `codigos_qr_ibfk_2` FOREIGN KEY (`Id_materia`) REFERENCES `materias` (`materia_id`);
 
 --
 -- Filtros para la tabla `grupos`
