@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  #formulario {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 400px;
+    text-align: center;
+    margin-top: 50px; /* Ajuste el margen superior para centrar mejor el formulario */
+  }
+
+  h1 {
+    color: #007bff;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    width: 100%; /* Ancho completo del botón */
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+<h1></h1>
+<form action="PruebaH.php" method="post" id="formulario">
+  <label for="grupo">Grupo:</label><br>
+  <select name="grupo" id="grupo">
+    <option value="8510">8510</option>
+    <option value="7520">7520</option>
+  </select><br><br>
+
+  <label for="materia">Materia:</label><br>
+  <select name="materia" id="materia">
+    <option value="SOCIEDAD Y DESARROLLO EN EL MUNDO">SOCIEDAD Y DESARROLLO EN EL MUNDO</option>
+    <option value="ARQUITECTURA DE COMP.">ARQUITECTURA DE COMP.</option>
+    <option value="BASE DE DATOS AVANZADAS">BASE DE DATOS AVANZADAS</option>
+    <option value="DESARROLLO DE EMPRENDEDORES">DESARROLLO DE EMPRENDEDORES</option>
+    <option value="INGENIERIA DE SOFTWARE">INGENIERIA DE SOFTWARE</option>
+    <option value="INTELIGENCIA ARTIFICIAL">INTELIGENCIA ARTIFICIAL</option>
+    <option value="ROBÓTICA">ROBÓTICA</option>
+    <option value="TÉCNICAS DE CALIDAD DE SOFTWARE">TÉCNICAS DE CALIDAD DE SOFTWARE</option>
+    <option value="ADMINISTRACIÓN DE CENTROS DE COMPUTO">ADMINISTRACIÓN DE CENTROS DE COMPUTO</option>
+    <option value="COMERCIALIZACIÓN DE SOFTWARE">COMERCIALIZACIÓN DE SOFTWARE</option>
+    <option value="DESARROLLO DE APLICACIONES AVANZADAS DE INTERNET">DESARROLLO DE APLICACIONES AVANZADAS DE INTERNET</option>
+    <option value="SEMINARIO DE INVESTIGACIÓN APLICADA">SEMINARIO DE INVESTIGACIÓN APLICADA</option>
+    <option value="SISTEMAS DIGITALES PARA COMUNICACIONES">SISTEMAS DIGITALES PARA COMUNICACIONES</option>
+  </select><br><br>
+
+  <label for="maestro">MAESTRO:</label><br>
+  <select name="maestro" id="maestro">
+    <option value="Carlos González Pérez">Carlos González Pérez</option>
+    <option value="María Martínez López">María Martínez López</option>
+    <option value="Pedro Sánchez García">Pedro Sánchez García</option>
+    <option value="Ana Rodríguez Martín">Ana Rodríguez Martín</option>
+    <option value="Juan López Rodríguez">Juan López Rodríguez</option>
+    <option value="Laura García Fernández">Laura García Fernández</option>
+    <option value="David Pérez González">David Pérez González</option>
+    <option value="ABEL RAMIREZ FIGUEROA">ABEL RAMIREZ FIGUEROA</option>
+  </select><br><br>
+
+  <button type="submit">Generar Lista de Asistencia</button>
+</form>
+</body>>
+</html>
