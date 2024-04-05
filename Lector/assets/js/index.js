@@ -1,3 +1,6 @@
+//Contador de códigos QR leídos
+let contadorCodigos = 0;
+
 //crea elemento
 const video = document.createElement("video");
 
@@ -64,9 +67,10 @@ qrcode.callback = (token) => {
     console.log(token);
     Swal.fire(token)
     activarSonido();
-    //encenderCamara();    
+    //encenderCamara();
     cerrarCamara();
-    registrarAsistencia(token);    
+    registrarAsistencia(token);
+    contadorCodigos++; // Incrementar el contador
 
   }
 };
@@ -81,26 +85,62 @@ function registrarAsistencia(token) {
       }
       return response.text();
     })
-    
     .then(data => {
-      if (data === 'success') {
-        // Redirigir a otra página en caso de éxito
+      // Mostrar mensaje de éxito o de error utilizando SweetAlert2
+      if (data.trim() === 'Registro de asistencia exitoso.') {
+        Swal.fire({
+          title: 'Éxito',
+          text: data.trim(),
+          icon: 'success',
+          customClass: 'custom-swal',
+          showCancelButton: true,
+          confirmButtonText: 'Seguir leyendo códigos QR',
+          cancelButtonText: 'Volver a la página docente',
+          showCloseButton: true,
+          footer: `<span>Códigos QR leídos: ${contadorCodigos}</span>`
+
+        }).then((result) => {
+          if (result.isConfirmed) {
+            encenderCamara();
+          } else {
+            window.location.href = 'docente.html';
+          }
+        });
       } else {
-        // Mostrar mensaje de error utilizando SweetAlert2
-        Swal.fire('Error', 'No se pudo registrar la asistencia', 'error');
+        Swal.fire('Error', data.trim(), 'error');
+        Swal.fire({
+          title: 'Error',
+          text: data.trim(),
+          icon: 'error',
+          customClass: 'custom-swal',
+          showCancelButton: true,
+          confirmButtonText: 'Seguir leyendo códigos QR',
+          cancelButtonText: 'Volver a la página docente',
+          showCloseButton: true,
+          footer: `<span>Códigos QR leídos: ${contadorCodigos}</span>`
+
+        }).then((result) => {
+          if (result.isConfirmed) {
+            encenderCamara();
+          } else {
+            window.location.href = 'docente.html';
+          }
+        });
       }
     })
     .catch(error => {
+      // Mostrar mensaje de error utilizando SweetAlert2
+      Swal.fire('Error', 'No se pudo registrar la asistencia', 'error');
       // Capturar y mostrar cualquier error de red
       console.error('Error al realizar la solicitud:', error);
     });
-    console.log("Este es el token: "+token);
+
 }
 
-//evento para mostrar la camara sin el boton 
+// Evento para mostrar la cámara sin el botón 
 window.addEventListener('load', (e) => {
   encenderCamara();
-})
+});
 
 
 
