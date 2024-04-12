@@ -95,7 +95,7 @@ function registrarAsistencia(token) {
           customClass: 'custom-swal',
           showCancelButton: true,
           confirmButtonText: 'Seguir leyendo códigos QR',
-          cancelButtonText: 'Volver a la página docente',
+          cancelButtonText: 'cerrar clase',
           showCloseButton: true,
           footer: `<span>Códigos QR leídos: ${contadorCodigos}</span>`
 
@@ -103,7 +103,7 @@ function registrarAsistencia(token) {
           if (result.isConfirmed) {
             encenderCamara();
           } else {
-            window.location.href = 'docente.html';
+            ejecutarFaltasPHP(); // Ejecutar faltas.php
           }
         });
       } else {
@@ -115,7 +115,7 @@ function registrarAsistencia(token) {
           customClass: 'custom-swal',
           showCancelButton: true,
           confirmButtonText: 'Seguir leyendo códigos QR',
-          cancelButtonText: 'Volver a la página docente',
+          cancelButtonText: 'Cerrar clase',
           showCloseButton: true,
           footer: `<span>Códigos QR leídos: ${contadorCodigos}</span>`
 
@@ -123,7 +123,7 @@ function registrarAsistencia(token) {
           if (result.isConfirmed) {
             encenderCamara();
           } else {
-            window.location.href = 'docente.html';
+            ejecutarFaltasPHP(); // Ejecutar faltas.php
           }
         });
       }
@@ -135,6 +135,21 @@ function registrarAsistencia(token) {
       console.error('Error al realizar la solicitud:', error);
     });
 
+}
+
+// Función para ejecutar faltas.php
+function ejecutarFaltasPHP() {
+  fetch('faltas.php')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al ejecutar faltas.php');
+      }
+      // Redirigir a la página docente.html una vez que se complete la ejecución de faltas.php
+      window.location.href = 'docente.html';
+    })
+    .catch(error => {
+      console.error('Error al ejecutar faltas.php:', error);
+    });
 }
 
 // Evento para mostrar la cámara sin el botón 
