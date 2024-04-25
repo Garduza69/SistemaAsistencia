@@ -1,3 +1,4 @@
+
 <?php
 // Configuración de la base de datos
 $servername = "localhost"; // Cambia localhost por el servidor de tu base de datos
@@ -47,7 +48,7 @@ if (isset($_SESSION['email'])) {
                 $token = $_GET['token'];
 
                 // Consultar la materia asociada al token en la tabla codigos_qr
-                $sql_select = "SELECT materia_id, id_usuario FROM codigos_qr WHERE token = '$token'";
+                $sql_select = "SELECT materia_id, id_usuario, used FROM codigos_qr WHERE token = '$token'";
                 $result_select = $conn->query($sql_select);
 
                 // Verificar si se encontró el token en la base de datos
@@ -60,10 +61,7 @@ if (isset($_SESSION['email'])) {
 
                     //verificar si el código ya fue usado
                     if($used == 0){
-
-                        // Actualizar el campo 'used' a 1
-                        $sql_update_used = "UPDATE codigos_qr SET used = 1 WHERE token = '$token'";
-                        $conn->query($sql_update_used);
+                        
 
                         // Verificar si la materia del token coincide con alguna de las materias que imparte el profesor
                         if (in_array($materia_id, $materias_imparte)) {
@@ -117,8 +115,13 @@ if (isset($_SESSION['email'])) {
                         } else {
                             echo "Error: La materia asociada al token no coincide con las materias que imparte el profesor.";
                         }
-                    }elseif($used == 1){
+                        // Actualizar el campo 'used' a 1
+                        $sql_update_used = "UPDATE codigos_qr SET used = 1 WHERE token = '$token'";
+                        $conn->query($sql_update_used);
+                    }else{
+                        if($used == 1){
                         echo "Error: El código ya fue usado";// manda el mensaje si el código QR ya fue usado
+                        }
                     }
                 } else {
                     echo "Error: No se encontró ningún token asociado.";
@@ -143,6 +146,3 @@ if (isset($_SESSION['email'])) {
 // Cerrar la conexión
 $conn->close();
 ?>
-
-
-
