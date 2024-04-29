@@ -1,6 +1,7 @@
 //Contador de códigos QR leídos
 let contadorCodigos = 0;
 
+
 //crea elemento
 const video = document.createElement("video");
 
@@ -65,7 +66,6 @@ const activarSonido = () => {
 qrcode.callback = (token) => {
   if (token) {
     console.log(token);
-    Swal.fire(token)
     activarSonido();
     //encenderCamara();
     cerrarCamara();
@@ -103,7 +103,9 @@ function registrarAsistencia(token) {
           if (result.isConfirmed) {
             encenderCamara();
           } else {
-            ejecutarFaltasPHP(); // Ejecutar faltas.php
+              if (result.dismiss == Swal.DismissReason.cancel) {
+              ejecutarFaltasPHP(); // Ejecutar faltas.php solo si no se cancela el diálogo
+            }
           }
         });
       } else {
@@ -123,7 +125,9 @@ function registrarAsistencia(token) {
           if (result.isConfirmed) {
             encenderCamara();
           } else {
-            ejecutarFaltasPHP(); // Ejecutar faltas.php
+            if (result.dismiss == Swal.DismissReason.cancel) {
+              ejecutarFaltasPHP(); // Ejecutar faltas.php solo si no se cancela el diálogo
+            }
           }
         });
       }
@@ -155,6 +159,16 @@ function ejecutarFaltasPHP() {
 // Evento para mostrar la cámara sin el botón 
 window.addEventListener('load', (e) => {
   encenderCamara();
+});
+
+// evento que evita que el navegador guarde el caché
+window.addEventListener('pageshow', function(event) {
+  window.history.pushState(null, null, document.URL);
+});
+
+//Evento que ejecuta la función de faltas cuando el usuario retrocede la página desde el navegador o con el botón del celular
+window.addEventListener('popstate', function(event) {
+  ejecutarFaltasPHP();
 });
 
 
