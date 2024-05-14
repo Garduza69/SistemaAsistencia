@@ -1,3 +1,15 @@
+<?php
+session_start();
+// Incluir el archivo de conexión a la base de datos
+require('conexion2.php');
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: index.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -136,13 +148,6 @@
                 <input type="date" name="dia" id="dia">
             </div>
         </div>
-        <div class="seleccionar-turnos">  
-            <label for="turno">Turno:</label>
-            <select name="turno" id="turno">
-                <option value="Matutino">Matutino</option>
-                <option value="Vespertino">Vespertino</option>
-            </select>
-        </div>
         <div class="seleccionar-dia">
             <label for="dia_seleccionado">Día seleccionado:</label>
             <input type="text" name="dia_seleccionado" id="dia_seleccionado" readonly  required>
@@ -155,7 +160,7 @@
         </form>
     </div>
 
-<script>
+    <script>
     // Obtener el botón de generar lista
     const botonGenerarLista = document.getElementById('boton-generar-lista');
 
@@ -163,7 +168,7 @@
     botonGenerarLista.addEventListener('click', function() {
         // Mostrar una confirmación al usuario
         const confirmacion = confirm("¿Están correctos los datos seleccionados? ¿Desea continuar?");
-		
+    
         // Si el usuario presiona Aceptar, validar campos requeridos y enviar el formulario
         if (confirmacion) {
             // Obtener todos los campos requeridos
@@ -190,10 +195,17 @@
     // Obtener el elemento del calendario
     const calendario = document.getElementById('dia');
 
+    // Obtener la fecha actual
+    const fechaActual = new Date();
+
+    // Calcular la fecha límite (3 días hábiles atrás)
+    const fechaLimite = new Date();
+    fechaLimite.setDate(fechaActual.getDate() - 4);
+
     // Agregar un event listener para detectar cambios en el calendario
     calendario.addEventListener('change', () => {
         // Obtener la fecha seleccionada en el calendario (en formato local)
-        const fechaSeleccionadaLocal = new Date(calendario.value);
+       const fechaSeleccionadaLocal = new Date(calendario.value);
 
         // Convertir la fecha seleccionada a formato UTC para evitar diferencias de zona horaria
         const fechaSeleccionadaUTC = new Date(Date.UTC(
@@ -202,12 +214,20 @@
             fechaSeleccionadaLocal.getUTCDate()
         ));
 
-        // Extraer el día de la fecha seleccionada
-        const diaSeleccionado = fechaSeleccionadaUTC.getUTCDate();
+        // Verificar si la fecha seleccionada está dentro del rango permitido
+        if (fechaSeleccionadaUTC >= fechaLimite && fechaSeleccionadaUTC <= fechaActual) {
+            // Extraer el día de la fecha seleccionada
+            const diaSeleccionado = fechaSeleccionadaUTC.getUTCDate();
 
-        // Actualizar el valor del campo de texto para mostrar solo el día
-        document.getElementById('dia_seleccionado').value = diaSeleccionado;
+            // Actualizar el valor del campo de texto para mostrar solo el día
+            document.getElementById('dia_seleccionado').value = diaSeleccionado;
+        } else {
+            // Mostrar un mensaje de error si la fecha seleccionada está fuera del rango permitido
+            alert('Selecciona una fecha dentro de los 3 días hábiles.');
+            // Restablecer el valor del calendario a la fecha actual
+        calendario.valueAsDate = fechaActual;
+        }
     });
-</script>
+    </script>
 </body>
 </html>
